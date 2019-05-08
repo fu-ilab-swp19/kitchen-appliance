@@ -1,5 +1,6 @@
 import numpy as np
 import time
+
 from Sensor import Sensor
 from const import AMBIENT_TEMPERATURE, WATER_BOILER_DURATION, WATER_BOILER_DOWNTIME, WATER_BOILER_FIRST_ACTIVE, WATER_BOILER_ERROR, WATER_BOILER_COOLDOWN
 
@@ -27,7 +28,6 @@ class WaterBoilerTemperatureSensor(Sensor):
 		if self.time is None:
 			self.time = 0
 		else:
-			time.sleep(0.1 * self.update_interval)
 			self.time += self.update_interval
 			
 		error = self.randomFromTupel(WATER_BOILER_ERROR)
@@ -45,7 +45,6 @@ class WaterBoilerTemperatureSensor(Sensor):
 				cooldown_range = 100 - self.ambient
 				self.cooldown_step = cooldown_range / cooldown
 				self.value -= self.cooldown_step + error
-				print('real > 100.', self.time_last_cooldown, self.cooldown_begin, cooldown_range, self.cooldown, self.cooldown_step)
 			else:
 				self.value = real + error
 		elif self.cooldown:

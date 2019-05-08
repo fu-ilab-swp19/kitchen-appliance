@@ -1,4 +1,9 @@
 import numpy as np
+import time
+from threading import Thread
+
+from SensorThread import SensorThread
+from SensorServer import SensorServer
 
 class Sensor():
 	
@@ -7,11 +12,11 @@ class Sensor():
 		self.id = id
 		self.description = description
 		self.update_interval = update_interval
-		
 		self.value = None
-		self.update()
 		
-		print('Sensor with id', id, 'and value', self.value, 'initialized.')
+		SensorThread(self)
+		
+		SensorServer(self)
 		
 	def update(self):
 		

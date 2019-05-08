@@ -1,12 +1,10 @@
 from WaterBoilerTemperatureSensor import WaterBoilerTemperatureSensor
-import time
 from threading import Thread
 
 def updateSensor(sensor):
 	while(True):
 		sensor.update()
 		print(sensor.id, sensor.value)
-		time.sleep(sensor.update_interval)
 
 def main():
 	water_boiler_1 = WaterBoilerTemperatureSensor(1, 'first sensor.', 2)

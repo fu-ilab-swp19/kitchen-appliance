@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+</head>
+<style>
+
+html{
+}
+
+#main{
+	width:1300px;
+	margin:auto;
+	margin-top:50px;
+}
+
+.baseDiv{
+	padding:10px;
+}
+
+.row{
+margin-left:0px !important;
+}
+
+.myHover{
+	cursor:pointer;
+}
+
+.myHover:hover{
+	font-size: 20px;
+}
+	
+#canvasDiv{
+	opacity:0;
+	width: 1315px;
+	border:5px solid #3b5924;
+}
+</style>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <a class="navbar-brand" href="#">Kitchen Appliance App</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+		  <li class="nav-item active">
+			<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+		  </li>
+		  <li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  Appliances
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			  <a class="dropdown-item" href="#">Fridge</a>
+			  <a class="dropdown-item" href="#">Stove</a>
+			  <a class="dropdown-item" href="#">Water heater</a>
+			</div>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#">Extended Information</a>
+		  </li>
+		</ul>
+	  </div>
+	</nav>
+	<div id="main">
+		<div class="row">
+			<div class="col-lg baseDiv myHover" id="Water-Heater" onclick="openChart('Water-Heater')">
+				<p class="text-center"><i class="fas fa-blender"></i></p>
+				<p class="text-center">Water heater<p>
+			</div>
+			<div class="col-lg baseDiv myHover" id="Toaster" onclick="openChart('Toaster')">
+				<p class="text-center"><i class="fas fa-bread-slice"></i></p>
+				<p class="text-center">Toaster<p>
+			</div>
+			<div class="col-lg baseDiv myHover" id="Fridge" onclick="openChart('Fridge')">
+				<p class="text-center"><i class="fas fa-icicles"></i></p>
+				<p class="text-center">Fridge<p>
+			</div>
+			<div class="col-lg baseDiv myHover" id="Stove" onclick="openChart('Stove')">
+				<p class="text-center"><i class="fas fa-fire-alt"></i></p>
+				<p class="text-center">Stove<p>
+			</div>
+		</div>
+		<div id="canvasDiv" style="">
+			<div class="row">
+				<div class="col-sm-4 baseDiv">
+					<p class="text-center"><i id="powerLamp" class="fas fa-power-off" style="width:30%;height:30%;margin-top:15px"></i></p>
+					<p class="text-center">Active</p>
+				</div>
+				<div class="col-sm-8 baseDiv">
+					<h3>Interesting data:</h3>
+					<div class="baseDiv">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">Verbrauch:</li>
+							<li class="list-group-item">und anderes:</li>
+							<li class="list-group-item">und noch mehr Dinge:</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<canvas id="canvas" width="1315" height="400"></canvas>
+		</div>
+	</div>
+		
+		
+	<script src="js/jquery.js" type="text/javascript"></script>
+	<script src="js/bootstrap.js" type="text/javascript"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+	<script src="js/Chart.bundle.js"></script>	
+	<script src="js/utils.js"></script>
+	<script>
+	$( document ).ready(function() {
+		console.log( "ready!" );
+		
+	});
+
+	function openChart(app){
+		if(appliance!=""){
+			$('#'+appliance).css('background-color','');
+			$('#'+appliance).css('color','black');
+			$('#'+appliance).css('font-size','');
+		}
+		appliance = app;
+		$('#'+appliance).css('background-color','#3b5924');
+		$('#'+appliance).css('color','white');
+		$('#'+appliance).css('font-size','20px');
+		var color = 'green';
+		if(Math.round(Math.random())==1){
+			color = '#8e1130';
+		}
+		$('#powerLamp').css('color',color);
+		newRandomData();
+		window.myLine.update();
+		if($("#canvasDiv").attr("style")==""){
+			$("#canvasDiv").attr("style","opacity:1");
+		}
+	}
+	
+	var appliance = "";
+	var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var config = {
+		type: 'line',
+		data: {
+			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+			datasets: [{
+				label: 'usage',
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				data: [
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor(),
+					randomScalingFactor()
+				],
+				fill: false,
+			}]
+		},
+		options: {
+			responsive: true,
+			title: {
+				display: true,
+				text: "Stromverbrauch last year"
+			},
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Month'
+					}
+				}],
+				yAxes: [{
+					display: true,
+					scaleLabel: {
+						display: true,
+						labelString: 'Stromverbrauch in kWh'
+					}
+				}]
+			}
+		}
+	};
+
+	window.onload = function() {
+		var ctx = document.getElementById('canvas').getContext('2d');
+		window.myLine = new Chart(ctx, config);
+	};	
+	
+	function newRandomData() {
+		config.data.datasets.forEach(function(dataset) {
+			dataset.data = dataset.data.map(function() {
+				return randomScalingFactor();
+			});
+		});
+	}
+	</script>
+
+</body>
+</html>

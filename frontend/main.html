@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="de">
 <head>
 	<meta charset="utf-8"/>
@@ -8,30 +7,34 @@
 <style>
 
 html{
-
 }
 
 #main{
 	width:1300px;
 	margin:auto;
 	margin-top:50px;
-	font-size:30px;
 }
 
 .baseDiv{
 	padding:10px;
+}
+
+.row{
+margin-left:0px !important;
+}
+
+.myHover{
 	cursor:pointer;
 }
 
-.baseDiv:hover{
-	background-color:#65963f;
-	color:white;
+.myHover:hover{
+	font-size: 20px;
 }
 	
 #canvasDiv{
 	opacity:0;
-	height:400px;
-	width: 1300px;
+	width: 1315px;
+	border:5px solid #3b5924;
 }
 </style>
 
@@ -65,25 +68,42 @@ html{
 	</nav>
 	<div id="main">
 		<div class="row">
-			<div class="col-lg baseDiv" onclick="openChart('Water Heater')">
+			<div class="col-lg baseDiv myHover" id="Water-Heater" onclick="openChart('Water-Heater')">
 				<p class="text-center"><i class="fas fa-blender"></i></p>
 				<p class="text-center">Water heater<p>
 			</div>
-			<div class="col-lg baseDiv" onclick="openChart('Toaster')">
+			<div class="col-lg baseDiv myHover" id="Toaster" onclick="openChart('Toaster')">
 				<p class="text-center"><i class="fas fa-bread-slice"></i></p>
 				<p class="text-center">Toaster<p>
 			</div>
-			<div class="col-lg baseDiv" onclick="openChart('Fridge')">
+			<div class="col-lg baseDiv myHover" id="Fridge" onclick="openChart('Fridge')">
 				<p class="text-center"><i class="fas fa-icicles"></i></p>
 				<p class="text-center">Fridge<p>
 			</div>
-			<div class="col-lg baseDiv" onclick="openChart('Stove')">
+			<div class="col-lg baseDiv myHover" id="Stove" onclick="openChart('Stove')">
 				<p class="text-center"><i class="fas fa-fire-alt"></i></p>
 				<p class="text-center">Stove<p>
 			</div>
 		</div>
 		<div id="canvasDiv" style="">
-			<canvas id="canvas" width="1300" height="400"></canvas>
+			<div class="row">
+				<div class="col-sm-4 baseDiv">
+					<p class="text-center"><i id="powerLamp" class="fas fa-power-off" style="width:30%;height:30%;margin-top:15px"></i></p>
+					<p class="text-center">Active</p>
+				</div>
+				<div class="col-sm-8 baseDiv">
+					<h3>Interesting data:</h3>
+					<div class="baseDiv">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">Verbrauch:</li>
+							<li class="list-group-item">und anderes:</li>
+							<li class="list-group-item">und noch mehr Dinge:</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<canvas id="canvas" width="1315" height="400"></canvas>
 		</div>
 	</div>
 		
@@ -100,7 +120,20 @@ html{
 	});
 
 	function openChart(app){
-		window.myLine.options.title.text = app;
+		if(appliance!=""){
+			$('#'+appliance).css('background-color','');
+			$('#'+appliance).css('color','black');
+			$('#'+appliance).css('font-size','');
+		}
+		appliance = app;
+		$('#'+appliance).css('background-color','#3b5924');
+		$('#'+appliance).css('color','white');
+		$('#'+appliance).css('font-size','20px');
+		var color = 'green';
+		if(Math.round(Math.random())==1){
+			color = '#8e1130';
+		}
+		$('#powerLamp').css('color',color);
 		newRandomData();
 		window.myLine.update();
 		if($("#canvasDiv").attr("style")==""){
@@ -115,7 +148,7 @@ html{
 		data: {
 			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 			datasets: [{
-				label: 'Last Year Usage',
+				label: 'usage',
 				backgroundColor: window.chartColors.red,
 				borderColor: window.chartColors.red,
 				data: [
@@ -134,7 +167,7 @@ html{
 			responsive: true,
 			title: {
 				display: true,
-				text: appliance
+				text: "Stromverbrauch last year"
 			},
 			tooltips: {
 				mode: 'index',
@@ -156,7 +189,7 @@ html{
 					display: true,
 					scaleLabel: {
 						display: true,
-						labelString: 'Value'
+						labelString: 'Stromverbrauch in kWh'
 					}
 				}]
 			}

@@ -113,101 +113,37 @@ margin-left:0px !important;
 	<script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
 	<script src="js/Chart.bundle.js"></script>	
 	<script src="js/utils.js"></script>
+	<script src="js/simpleGraph.js"></script>
+	<script src="js/connection.js"></script>
 	<script>
-	$( document ).ready(function() {
-		console.log( "ready!" );
-		
-	});
+		$( document ).ready(function() {
+			console.log( "ready!" );
+			
+		});
 
-	function openChart(app){
-		if(appliance!=""){
-			$('#'+appliance).css('background-color','');
-			$('#'+appliance).css('color','black');
-			$('#'+appliance).css('font-size','');
-		}
-		appliance = app;
-		$('#'+appliance).css('background-color','#3b5924');
-		$('#'+appliance).css('color','white');
-		$('#'+appliance).css('font-size','20px');
-		var color = 'green';
-		if(Math.round(Math.random())==1){
-			color = '#8e1130';
-		}
-		$('#powerLamp').css('color',color);
-		newRandomData();
-		window.myLine.update();
-		if($("#canvasDiv").attr("style")==""){
-			$("#canvasDiv").attr("style","opacity:1");
-		}
-	}
-	
-	var appliance = "";
-	var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var config = {
-		type: 'line',
-		data: {
-			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-			datasets: [{
-				label: 'usage',
-				backgroundColor: window.chartColors.red,
-				borderColor: window.chartColors.red,
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				],
-				fill: false,
-			}]
-		},
-		options: {
-			responsive: true,
-			title: {
-				display: true,
-				text: "Stromverbrauch last year"
-			},
-			tooltips: {
-				mode: 'index',
-				intersect: false,
-			},
-			hover: {
-				mode: 'nearest',
-				intersect: true
-			},
-			scales: {
-				xAxes: [{
-					display: true,
-					scaleLabel: {
-						display: true,
-						labelString: 'Month'
-					}
-				}],
-				yAxes: [{
-					display: true,
-					scaleLabel: {
-						display: true,
-						labelString: 'Stromverbrauch in kWh'
-					}
-				}]
+		function openChart(app){
+			if(appliance!=""){
+				$('#'+appliance).css('background-color','');
+				$('#'+appliance).css('color','black');
+				$('#'+appliance).css('font-size','');
+			}
+			appliance = app;
+			$('#'+appliance).css('background-color','#3b5924');
+			$('#'+appliance).css('color','white');
+			$('#'+appliance).css('font-size','20px');
+			var color = 'green';
+			if(Math.round(Math.random())==1){
+				color = '#8e1130';
+			}
+			$('#powerLamp').css('color',color);
+			newRandomData();
+			window.myLine.update();
+			if($("#canvasDiv").attr("style")==""){
+				$("#canvasDiv").attr("style","opacity:1");
 			}
 		}
-	};
-
-	window.onload = function() {
-		var ctx = document.getElementById('canvas').getContext('2d');
-		window.myLine = new Chart(ctx, config);
-	};	
-	
-	function newRandomData() {
-		config.data.datasets.forEach(function(dataset) {
-			dataset.data = dataset.data.map(function() {
-				return randomScalingFactor();
-			});
-		});
-	}
+		
+		var appliance = "";
 	</script>
 
 </body>

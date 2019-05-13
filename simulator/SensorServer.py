@@ -5,7 +5,7 @@ from threading import Thread
 from SensorServerHandler import SensorServerHandler
 
 class V6Server(socketserver.TCPServer):
-    address_family = socket.AF_INET6
+    address_family = socket.AF_INET
 
 class SensorServer():
 
@@ -17,7 +17,7 @@ class SensorServer():
 		
 	def asynch_execution(self, sensor):
 		
-		HOST = '::1'
+		HOST = '127.0.0.1'
 		PORT = 0
 		
 		server = V6Server((HOST, PORT), SensorServerHandler)

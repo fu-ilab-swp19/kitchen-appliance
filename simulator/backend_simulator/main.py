@@ -7,12 +7,14 @@ import datetime
 
 def getSensorData(host, port):
 	
-	sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	
 	received = None
 	
 	try: 
 		sock.connect((host, port))
+
+		print("Connected to host {} and port {}".format(host,port))
 		sock.sendall(bytes('\n', 'utf-8'))
 		
 		received = float(str(sock.recv(1024), 'utf-8'))
@@ -26,7 +28,7 @@ def getSensorData(host, port):
 
 def main():
 	
-	host = '::1'
+	host = '127.0.0.1'
 	port = int(sys.argv[1])
 	
 	update_interval = float(sys.argv[2])
@@ -42,11 +44,12 @@ def main():
 	while(True):
 		try:
 			d = getSensorData(host, port)
-			y_data = np.append(y_data, d)[-500:]
-			x_data = np.append(x_data, datetime.datetime.now())[-500:]
-			ax.clear()
-			ax.plot(x_data,y_data)
-			plt.pause(0.1)
+			print(d)
+			#y_data = np.append(y_data, d)[-500:]
+			#x_data = np.append(x_data, datetime.datetime.now())[-500:]
+			#ax.clear()
+			#ax.plot(x_data,y_data)
+			#plt.pause(0.1)
 		except:
 			pass
 		time.sleep(update_interval)

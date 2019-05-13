@@ -1,5 +1,6 @@
 from threading import Thread
 import time
+import sys
 
 import Sensor
 
@@ -15,5 +16,4 @@ class SensorThread(Thread):
 		
 		while(True):
 			sensor.update()
-			print(sensor.id, sensor.value)
 			time.sleep(0.1 * sensor.update_interval)

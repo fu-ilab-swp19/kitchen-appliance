@@ -37,7 +37,7 @@ class WaterBoilerTemperatureSensor(Sensor):
 			real = self.active_begin + self.active_step * active_time_spent
 			if real > 100:
 				self.active = False
-				self.time_next_active = self.randomFromTupel(WATER_BOILER_DOWNTIME)
+				self.time_next_active = self.time + self.randomFromTupel(WATER_BOILER_DOWNTIME)
 				self.cooldown = True
 				self.time_last_cooldown = self.time
 				self.cooldown_begin = self.value

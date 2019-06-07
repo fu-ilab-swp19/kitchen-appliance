@@ -1,5 +1,7 @@
 # kitchen-appliance
 
+Das Projekt wird in einer Repo auf FU GitLab entwickelt, und zwar: https://git.imp.fu-berlin.de/dawniezgodka/kitchen-app
+
 Teilnehmer:
 * Dorian
 * Sebastian
